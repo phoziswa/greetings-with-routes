@@ -25,14 +25,14 @@ app.get('/', function (req, res) {
   
     res.render('index', {
   
-        allNames: greetings.getTheGreet(),
+        allNames: greetings.getTheGreeted(),
       countingGreetedPeople: greetings.counter()
     
     });
   })
   app.post('/Greetings', function (req, res) {
 
-    greetings.greetInDiffLanguages(req.body.imputUser, req.body.languages)
+    greetings.greetInDiffLanguages(req.body.inputUser, req.body.languages)
 
     res.redirect('/')
   });

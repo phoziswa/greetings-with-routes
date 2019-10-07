@@ -32,7 +32,7 @@ module.exports = function GreetingFactory(names) {
  function getName() {
     return namesGreeted;
 }
-function getTheGreet(){
+function getTheGreeted(){
     return greetedUsers
 }
     return {
@@ -40,6 +40,6 @@ function getTheGreet(){
         greetInDiffLanguages,
         counter,
         getName,
-        getTheGreet
+        getTheGreeted
     }
 }
