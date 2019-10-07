@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <link rel="stylesheet" type="text/css" href="..public/css/style.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <form action="/Greetings" method="POST">
+
+        <div class="row">
+          <div class="col-12">
+            <div class="box">
+              <h1 class="center">Greetings</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="name ">
+              <span>
+                <h1>Name</h1>
+              </span>
+              <span>
+
+                <input type="text" name="imputUser" class="textBox" value="" placeholder="Enter name">
+              </span>
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-12 ">
+            <div class="move">
+              <span>
+                <input type="radio" name="language" class="langButton" value="English">English
+              </span>
+              <span>
+                <input type="radio" name="language" class="langButton" value="isiXhosa">isiXhosa
+
+              </span>
+              <span>
+                <input type="radio" name="language" class="langButton" value="Afrikaans">Afrikaans
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class=" col-12">
+            <span class="displayPlace">{{allNames}}</span>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-12">
+            <div class="myBtn">
+
+              <input type="button" name="button" class="greetMeBtn" value="greet me!">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class=" col-12">
+            <div class="counter">{{countingGreetedPeople}}
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</body>
+
+</html>

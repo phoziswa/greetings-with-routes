@@ -1,0 +1,50 @@
+body{
+    background-color: navajowhite;
+}
+.name{
+    justify-content: center;
+    display: flex;
+    font-size: 0.8em;
+
+}
+input{
+    margin-top: 3.10em;
+
+}
+.box{
+    font-size: larger;
+    justify-content: center;
+    display: flex;
+       
+      }
+
+.move{
+    justify-content: center;
+    display: flex;
+}
+.myBtn{
+
+    justify-content: center;
+    display: flex;
+    
+}
+span{
+    font-size: 1.5em;
+}
+.displayPlace{
+    justify-content: center;
+    display: flex;
+    
+}
+
+
+ .counter {
+    justify-content: center;
+    display: flex;
+   
+  }
+  .count {
+    justify-content: center;
+    display: flex;
+   
+  }
