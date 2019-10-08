@@ -26,15 +26,15 @@ app.get('/', function (req, res){
     res.render('index', {
   
         
-        // theCounter: greetings.counter()
+         theCounter: greetings.counter()
     
     });
   })
   app.post('/Greetings', function (req, res) {
 
-    var message = ""
-   var name = req.body.inputUser
-   var language = req.body.language
+   var message = ""
+   var name = req.body.inputUser;
+   var language = req.body.language;
    if(!name){
     message = "please enter name"
    }

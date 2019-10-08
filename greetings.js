@@ -1,7 +1,7 @@
 module.exports = function GreetingFactory(names) {
     var namesGreeted = names || {};
     var username = "";
-    var language = ""
+    var language = "";
 
     function setName(name) {
         username = name;
