@@ -21,23 +21,34 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
+app.get('/', function (req, res){
   
     res.render('index', {
   
-        allNames: greetings.getTheGreeted(),
-      countingGreetedPeople: greetings.counter()
+        
+        // theCounter: greetings.counter()
     
     });
   })
   app.post('/Greetings', function (req, res) {
 
-    greetings.greetInDiffLanguages(req.body.inputUser, req.body.languages)
-
-    res.redirect('/')
+    var message = ""
+   var name = req.body.inputUser
+   var language = req.body.language
+   if(!name){
+    message = "please enter name"
+   }
+   else if(!language){
+     message = "pease enter the language"
+   }
+   else{
+     message = greetings.greetInDiffLanguages(name, language)
+   }
+   
+    res.render('index', {message})
   });
 
-const PORT = process.env.PORT || 3004;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, function() {
   console.log('App starting on port', PORT);
 });
