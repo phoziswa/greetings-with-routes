@@ -26,7 +26,7 @@ app.get('/', function (req, res){
     res.render('index', {
   
         
-         theCounter: greetings.counter()
+      theCounter: greetings.counter()
     
     });
   })
