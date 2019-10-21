@@ -1,5 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const flash = require('express-flash');
+const session = require('express-session');
+
 const GreetingFactory = require('./greetings');
 const app = express();
 
@@ -12,6 +15,18 @@ const handlebarSetup = exphbs({
   viewPath:  './views',
   layoutsDir : './views/layouts'
 });
+const pg = require("pg");
+const Pool = pg.Pool;
+
+
+// which db connection to use
+const connectionString = 'postgresql://codex:codex123@localhost:5432/names_greeted';
+
+const pool = new Pool({
+    connectionString,
+   
+  });
+
 
 app.engine('handlebars', handlebarSetup);
 app.set('view engine', 'handlebars');
@@ -21,34 +36,61 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/', function (req, res){
-  
+app.use(session({
+  secret : "<add a secret string here>",
+  resave: false,
+  saveUninitialized: true
+}));
+app.use(flash());
+
+app.get('/', async function (req, res){
+
     res.render('index', {
-  
-        
-      theCounter: greetings.counter()
-    
+      theCounter: await greetings.counter(),
+      message: await greetings.greetingMessage()
+
     });
   })
-  app.post('/Greetings', function (req, res) {
+  app.post('/',async function (req, res) {
 
-   var message = ""
    var name = req.body.inputUser;
-   var language = req.body.language;
+   var lang = req.body.language;
+
    if(!name){
-    message = "please enter name"
+    req.flash("info", "please enter name")
+
+    res.render('index', {
+      message: await greetings.greetingMessage(),
+      message: ''
+    });
    }
-   else if(!language){
-     message = "pease enter the language"
+   else if(lang === undefined){
+    req.flash("info", "please select the language")
+
+    res.render('index', {
+      message: await greetings.greetingMessage(),
+      message: ''
+    });
    }
    else{
-     message = greetings.greetInDiffLanguages(name, language)
-   }
+    await greetings.greetInDiffLanguages(name, lang)
+    var greetMessege = await greetings.greetingMessage() 
+
+    res.render('index', {
+      theCounter: await greetings.counter(),
+      message: greetMessege
+
+    });
+     }
+  });
    
-    res.render('index', {message})
+  app.get("/greeted", async function(req, res){
+   res.render("actions",{
+    actions: await greetings.allData()
+   });
   });
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT ||3313;
 app.listen(PORT, function() {
   console.log('App starting on port', PORT);
 });

@@ -7,19 +7,19 @@ describe('GreetingFactory function', function () {
 
         var instance = GreetingFactory();
 
-        assert.deepEqual("Hello, Victor", instance.greetInDiffLanguages("Victor", "English"));
+        assert.equal("Hello, Victor", instance.greetInDiffLanguages("Victor", "English"));
     });
     it('should greet a person in isiXhosa', function () {
 
         var instance = GreetingFactory();
-
-        assert.deepEqual("Molo, Victor", instance.greetInDiffLanguages("Victor", "isiXhosa"));
+-
+        assert.equal("Molo, Victor", instance.greetInDiffLanguages("Victor", "isiXhosa"));
     });
     it('should greet a person in Afrikaans', function () {
 
         var instance = GreetingFactory();
 
-        assert.deepEqual("Hallo, Victor", instance.greetInDiffLanguages("Victor", "Afrikaans"));
+        assert.equal("Hallo, Victor", instance.greetInDiffLanguages("Victor", "Afrikaans"));
     });
 
     it('should not increment the counter if the name entered is already greeted ', function () {
@@ -51,8 +51,7 @@ describe('GreetingFactory function', function () {
         assert.deepEqual(instance.greetInDiffLanguages("First select the language"), instance.greetInDiffLanguages());
     });
 
-    
-    it('should keep track of the names greeted', function () {
+        it('should keep track of the names greeted', function () {
 
         var instance = GreetingFactory();
 
@@ -62,4 +61,23 @@ describe('GreetingFactory function', function () {
 
     assert.deepEqual(instance.counter(),3);
  });
+ it('should take only the valid names not numbers and other characters', function () {
+
+    var instance = GreetingFactory();
+
+    instance.greetInDiffLanguages('Phoziswa', "English")
+    instance.greetInDiffLanguages('-90=2',  "isiXhosa")
+    
+assert.deepEqual(instance.takesLetter('Phoziswa'),true);
+});
+it('should not take numbers and other characters', function () {
+
+    var instance = GreetingFactory();
+
+    instance.greetInDiffLanguages('Phoziswa', "English")
+    instance.greetInDiffLanguages('-90=2',  "isiXhosa")
+    
+assert.deepEqual(instance.takesLetter('-90=2'),false);
+});
+
 });

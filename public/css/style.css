@@ -1,5 +1,5 @@
 body{
-    background-color: navajowhite;
+    background-color: lightgoldenrodyellow;
 }
 .name{
     justify-content: center;
@@ -30,20 +30,38 @@ input{
 span{
     font-size: 1.5em;
 }
-.displayPlace{
+.displayGreet{
     justify-content: center;
     display: flex;
+    color: lightskyblue;
+    font-size: 20px;
+      }
+
+    .displayFlash{
+        justify-content: center;
+        display: flex;
+        color: red;
+        font-size: 20px;
+     
+              }
     
-}
-
-
- .counter {
+.counter {
     justify-content: center;
     display: flex;
-   
+     font-size: 40px;
+       
   }
   .count {
     justify-content: center;
     display: flex;
-   
-  }
+     }
+.greeted{
+    margin-left: 0.5em;
+}
+.link{
+    justify-content: center;
+    display: flex;
+    margin-top: 1.5em;
+    color: green;
+    font-size: 20px;
+}
