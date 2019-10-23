@@ -67,36 +67,27 @@ app.get('/', async function (req, res, next) {
   }
 })
 app.post('/greet', async function (req, res, next) {
-  try {
-    var name = req.body.inputUser;
-    var lang = req.body.language;
+  var name = req.body.inputUser;
+  var lang = req.body.language;
 
-    if (!name) {
-      req.flash("info", "please enter name");
-    }
-    else if (lang === undefined) {
-      req.flash("info", "please select the language")
-    }
-    else {
-      await greetings.greetInDiffLanguages(name, lang)
-    }
-    res.redirect('/')
-  } catch (error) {
-
-    next(error)
+  if (!name) {
+    req.flash("info", "please enter name");
   }
+  else if (lang === undefined) {
+    req.flash("info", "please select the language")
+  }
+  else {
+    await greetings.greetInDiffLanguages(name, lang)
+  }
+  res.redirect('/')
+
 });
 
-app.get("/greeted", async function (req, res, next) {
-  try {
-    let all_names = await greetings.allData();
-    res.render("actions", {
-      actions: all_names,
-    });
-
-  } catch (error) {
-    next(error)
-  }
+app.get("/greeted", async function (req, res) {
+  let all_names = await greetings.allData();
+  res.render("actions", {
+    actions: all_names,
+  });
 });
 
 app.listen(PORT, function () {
