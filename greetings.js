@@ -36,7 +36,7 @@ module.exports = function GreetingFactory() {
                 await pool.query('insert into allnames (greet_name, greet_count) values ($1, $2)', [nameUpp, 1]);
             }
         }
-       
+
         if (lang === 'English') {
             message = "Hello, " + nameUpp;
         }
@@ -51,17 +51,14 @@ module.exports = function GreetingFactory() {
     }
     async function counter() {
         var countRows = await pool.query('select count(*) from allnames')
-        for (let index = 0; index < countRows.rows.length; index++) {
-            const counts = countRows.rows[index];
-            console.log(counts.count);
-        }
+        return countRows.rows.length;
     }
 
     function getNames() {
         return namesGreeted;
     }
 
-     function greetingMessage() {
+    function greetingMessage() {
         return message;
     };
     async function allData() {
