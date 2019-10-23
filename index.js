@@ -53,36 +53,50 @@ app.use(bodyParser.json())
 
 app.use(flash());
 
-app.get('/', async function (req, res) {
-  let counter = await greetings.counter();
-  let greet = await greetings.greetingMessage();
+app.get('/', async function (req, res, next) {
+  try {
+    let counter = await greetings.counter();
+    let greet = await greetings.greetingMessage();
+    res.render('index', {
+      theCounter: counter,
+      message: greet
+    });
 
-  res.render('index', {
-    theCounter: counter,
-    message: greet
-  });
+  } catch (error) {
+    next(error)
+  }
 })
-app.post('/greet', async function (req, res) {
-  var name = req.body.inputUser;
-  var lang = req.body.language;
+app.post('/greet', async function (req, res, next) {
+  try {
+    var name = req.body.inputUser;
+    var lang = req.body.language;
 
-  if (!name) {
-    req.flash("info", "please enter name");
+    if (!name) {
+      req.flash("info", "please enter name");
+    }
+    else if (lang === undefined) {
+      req.flash("info", "please select the language")
+    }
+    else {
+      await greetings.greetInDiffLanguages(name, lang)
+    }
+    res.redirect('/')
+  } catch (error) {
+
+    next(error)
   }
-  else if (lang === undefined) {
-    req.flash("info", "please select the language")
-  }
-  else {
-    await greetings.greetInDiffLanguages(name, lang)
-  }
-  res.redirect('/')
 });
 
-app.get("/greeted", async function (req, res) {
-  let all_names = await greetings.allData();
-  res.render("actions", {
-    actions: all_names,
-  });
+app.get("/greeted", async function (req, res, next) {
+  try {
+    let all_names = await greetings.allData();
+    res.render("actions", {
+      actions: all_names,
+    });
+
+  } catch (error) {
+    next(error)
+  }
 });
 
 app.listen(PORT, function () {
