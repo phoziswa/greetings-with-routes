@@ -1,47 +1,56 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 const app = express();
 const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
 const PORT = process.env.PORT || 3213;
-
-const GreetingFactory = require('./greetings');
-
-
-const exphbs = require('express-handlebars');
-const handlebarSetup = exphbs({
-
-  partialsDir: "./views/partials",
-  viewPath: './views',
-  layoutsDir: './views/layouts'
-});
 const pg = require("pg");
 const Pool = pg.Pool;
 
+let useSSL = false;
+let local = process.env.LOCAL || false;
+if (process.env.DATABASE_URL && !local){
+    useSSL = true;
+}
 
-// which db connection to use
 const connectionString = 'postgresql://codex:codex123@localhost:5432/names_greeted';
 
 const pool = new Pool({
   connectionString,
-
+  ssl : useSSL
 });
 
-const greetings = GreetingFactory(pool);
+const GreetingFactory = require('./greetings');
+
+
+const handlebarSetup = exphbs({
+  partialsDir: "./views/partials",
+  viewPath: './views',
+  layoutsDir: './views/layouts'
+});
 
 app.engine('handlebars', handlebarSetup);
 app.set('view engine', 'handlebars');
+
+// which db connection to use
+
+
+
+const greetings = GreetingFactory(pool);
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}));
 
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.use(session({
-  secret: "<add a secret string here>",
-  resave: false,
-  saveUninitialized: true
-}));
+
 app.use(flash());
 
 app.get('/', async function (req, res) {
@@ -52,7 +61,7 @@ app.get('/', async function (req, res) {
 
   });
 })
-app.post('/', async function (req, res) {
+app.post('/greet', async function (req, res) {
 
   var name = req.body.inputUser;
   var lang = req.body.language;
