@@ -10,15 +10,15 @@ const Pool = pg.Pool;
 
 let useSSL = false;
 let local = process.env.LOCAL || false;
-if (process.env.DATABASE_URL && !local){
-    useSSL = true;
+if (process.env.DATABASE_URL && !local) {
+  useSSL = true;
 }
 
 const connectionString = process.env.DATABASE_URL || 'postgresql://codex:codex123@localhost:5432/names_greeted';
 
 const pool = new Pool({
   connectionString,
-  ssl : useSSL
+  ssl: useSSL
 });
 
 const GreetingFactory = require('./greetings');
@@ -54,49 +54,34 @@ app.use(bodyParser.json())
 app.use(flash());
 
 app.get('/', async function (req, res) {
+  let counter = await greetings.counter();
+  let greet = await greetings.greetingMessage();
 
   res.render('index', {
-    theCounter: await greetings.counter(),
-    message: await greetings.greetingMessage()
-
+    theCounter: counter,
+    message: greet
   });
 })
 app.post('/greet', async function (req, res) {
-
   var name = req.body.inputUser;
   var lang = req.body.language;
 
   if (!name) {
-    req.flash("info", "please enter name")
-
-    res.render('index', {
-      message: await greetings.greetingMessage(),
-      message: ''
-    });
+    req.flash("info", "please enter name");
   }
   else if (lang === undefined) {
     req.flash("info", "please select the language")
-
-    res.render('index', {
-      message: await greetings.greetingMessage(),
-      message: ''
-    });
   }
   else {
     await greetings.greetInDiffLanguages(name, lang)
-    var greetMessege = await greetings.greetingMessage()
-
-    res.render('index', {
-      theCounter: await greetings.counter(),
-      message: greetMessege
-
-    });
   }
+  res.redirect('/')
 });
 
 app.get("/greeted", async function (req, res) {
+  let all_names = await greetings.allData();
   res.render("actions", {
-    actions: await greetings.allData()
+    actions: all_names,
   });
 });
 
