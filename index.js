@@ -54,12 +54,16 @@ app.use(bodyParser.json())
 app.use(flash());
 
 app.get('/', async function (req, res, next) {
+  try {
     let counter = await greetings.counter();
     let greet = await greetings.greetingMessage();
     res.render('index', {
       theCounter: counter,
       message: greet
     });
+  } catch (error) {
+    next(error)
+  }
 })
 app.post('/greet', async function (req, res, next) {
   var name = req.body.inputUser;
