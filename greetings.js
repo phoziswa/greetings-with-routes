@@ -1,16 +1,7 @@
-module.exports = function GreetingFactory() {
+module.exports = function GreetingFactory(pool) {
     var namesGreeted = {};
     var message = '';
     var data;
-
-    const pg = require("pg");
-    const Pool = pg.Pool;
-
-    const connectionString = 'postgresql://codex:codex123@localhost:5432/names_greeted';
-
-    const pool = new Pool({
-        connectionString,
-    });
 
     function takesLetter(data) {
         var letters = /^[A-Za-z]+$/;
