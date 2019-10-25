@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
-const PORT = process.env.PORT || 3313;
+const PORT = process.env.PORT || 4001;
 const pg = require("pg");
 const Pool = pg.Pool;
 
@@ -22,7 +22,6 @@ const pool = new Pool({
 });
 
 const GreetingFactory = require('./greetings');
-
 
 const handlebarSetup = exphbs({
   partialsDir: "./views/partials",
@@ -85,10 +84,17 @@ app.get("/greeted", async function (req, res) {
   });
 });
 
-app.post('/reset', async function (req, res){
-  await greetings.resetData()
-  res.redirect('/')
-});
+// app.post('/reset', async function (req, res){
+//   await greetings.resetData()
+//   res.redirect('/')
+// });
+
+app.get('/user:usrName', async function (req, res){
+
+  // var  name = await greetings.greetingMessage();
+  // var counts = await greetings.counter()
+  res.render('users')
+})
 
 app.listen(PORT, function () {
   console.log('App starting on port', PORT);

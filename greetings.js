@@ -41,10 +41,10 @@ module.exports = function GreetingFactory(pool) {
 
     }
     async function counter() {
-        var countRows = await pool.query('SELECT count(*) from names_table')
+        var countRows = await pool.query('SELECT COUNT (*) FROM names_table')
         return countRows.rows[0].count;
     }
-
+  
     function getNames() {
         return namesGreeted;
     }
@@ -57,8 +57,8 @@ module.exports = function GreetingFactory(pool) {
         return data.rows
     }
     async function reset() {
-        let reset = await pool.query("DELETE FROM people_greeted;")
-        greeted = clear()
+        let reset = await pool.query("DELETE FROM names_table;")
+        namesGreeted = clear()
         return reset;
     }
     return {

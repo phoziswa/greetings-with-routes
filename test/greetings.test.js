@@ -1,5 +1,5 @@
 const assert = require('assert');
-const  GreetingFactory = require('../greetings');
+const GreetingFactory = require('../greetings');
 const pg = require("pg");
 const Pool = pg.Pool;
 
@@ -10,21 +10,21 @@ const pool = new Pool({
 });
 
 describe('The database web app', function () {
-
-  it('should count the names greeted', async function () {
-    let instance = GreetingFactory(pool);
-    await instance.greetInDiffLanguages("Aphelele",);
-    let greeting = await instance.counter();
-    assert.equal(1, greeting);
-  });
-
   it('should be able to greet a person', async function () {
     let instance = GreetingFactory(pool);
     await instance.greetInDiffLanguages("Yanga", "English");
     let greetMe = await instance.greetingMessage();
     assert.equal("Hello, Yanga", greetMe);
   });
-after(function () {
+
+  it('should count the names greeted', async function () {
+    let instance = GreetingFactory(pool);
+    await instance.greetInDiffLanguages("Asa");
+    let greeting = await instance.counter();
+    assert.equal(1, greeting);
+  });
+
+  after(function () {
     pool.end();
   })
 });
