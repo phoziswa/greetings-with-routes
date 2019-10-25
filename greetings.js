@@ -18,13 +18,13 @@ module.exports = function GreetingFactory(pool) {
         // data = await pool.query('select distinct greet_name greet_count from names_table;')
 
         if (nameUpp.length > 0) {
-            var storeNAmes = await pool.query('select * from names_table WHERE  greet_name = $1;', [nameUpp])
+            var storeNAmes = await pool.query('SELECT * FROM names_table WHERE  greet_name = $1;', [nameUpp])
 
             if (storeNAmes.rowCount === 1) {
                 await pool.query('UPDATE names_table greet_name SET greet_count = greet_count + 1 WHERE greet_name = $1;', [nameUpp])
             }
             else {
-                await pool.query('insert into names_table (greet_name, greet_count) values ($1, $2)', [nameUpp, 1]);
+                await pool.query('INSERT INTO names_table (greet_name, greet_count) values ($1, $2)', [nameUpp, 1]);
             }
         }
 
@@ -41,8 +41,8 @@ module.exports = function GreetingFactory(pool) {
 
     }
     async function counter() {
-        var countRows = await pool.query('select count(*) from names_table')
-        return countRows.rows.length;
+        var countRows = await pool.query('SELECT count(*) from names_table')
+        return countRows.rows[0].count;
     }
 
     function getNames() {
@@ -56,7 +56,11 @@ module.exports = function GreetingFactory(pool) {
         data = await pool.query('SELECT * FROM names_table;')
         return data.rows
     }
-
+    async function reset() {
+        let reset = await pool.query("DELETE FROM people_greeted;")
+        greeted = clear()
+        return reset;
+    }
     return {
 
         greetInDiffLanguages,
@@ -64,6 +68,7 @@ module.exports = function GreetingFactory(pool) {
         getNames,
         takesLetter,
         greetingMessage,
-        allData
+        allData,
+        reset
     }
 }

@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
-const PORT = process.env.PORT || 3213;
+const PORT = process.env.PORT || 3313;
 const pg = require("pg");
 const Pool = pg.Pool;
 
@@ -18,7 +18,7 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://codex:codex12
 
 const pool = new Pool({
   connectionString,
-  ssl: useSSL
+
 });
 
 const GreetingFactory = require('./greetings');
@@ -33,10 +33,6 @@ const handlebarSetup = exphbs({
 app.engine('handlebars', handlebarSetup);
 app.set('view engine', 'handlebars');
 
-// which db connection to use
-
-
-
 const greetings = GreetingFactory(pool);
 
 app.use(session({
@@ -49,7 +45,6 @@ app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
 
 app.use(flash());
 
@@ -84,11 +79,19 @@ app.post('/greet', async function (req, res, next) {
 
 app.get("/greeted", async function (req, res) {
   let all_names = await greetings.allData();
+
   res.render("actions", {
     actions: all_names,
   });
 });
 
+app.post('/reset', async function (req, res){
+  await greetings.resetData()
+  res.redirect('/')
+});
+
 app.listen(PORT, function () {
   console.log('App starting on port', PORT);
 });
+
+
