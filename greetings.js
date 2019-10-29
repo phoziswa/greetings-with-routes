@@ -2,18 +2,11 @@ module.exports = function GreetingFactory(pool) {
     var namesGreeted = {};
     var message = '';
     var data;
+    var greet;
 
-    function takesLetter(data) {
-        var letters = /^[A-Za-z]+$/;
-        if (data.match(letters)) {
-            return true;
-        } else {
-            return false
-        }
-    }
     async function greetInDiffLanguages(name, lang) {
         message = '';
-
+        clear()
         var nameUpp = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
         // data = await pool.query('select distinct greet_name greet_count from names_table;')
 
@@ -37,38 +30,54 @@ module.exports = function GreetingFactory(pool) {
         else if (lang === 'Afrikaans') {
             message = "Hallo, " + nameUpp;
         }
-        console.log(message);
-
+        // console.log(message);
     }
     async function counter() {
         var countRows = await pool.query('SELECT COUNT (*) FROM names_table')
         return countRows.rows[0].count;
     }
-  
+
     function getNames() {
         return namesGreeted;
+    }
+
+    async function getName(name) {
+
+        let names = await pool.query("SELECT * FROM names_table where greet_name =$1", [name]);
+        var user = names.rows[0];
+
+        return user
     }
 
     function greetingMessage() {
         return message;
     };
+
     async function allData() {
         data = await pool.query('SELECT * FROM names_table;')
         return data.rows
     }
+    function theGreet() {
+        return greet;
+    }
+
+    function clear() {
+        return ""
+    }
     async function reset() {
-        let reset = await pool.query("DELETE FROM names_table;")
-        namesGreeted = clear()
-        return reset;
+        let clearData = await pool.query("DELETE FROM names_table;")
+        greet = clear()
+        return clearData;
     }
     return {
 
         greetInDiffLanguages,
         counter,
         getNames,
-        takesLetter,
         greetingMessage,
         allData,
-        reset
+        reset,
+        theGreet,
+        getName
     }
 }

@@ -4,7 +4,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
-const PORT = process.env.PORT || 4001;
 const pg = require("pg");
 const Pool = pg.Pool;
 
@@ -48,23 +47,25 @@ app.use(bodyParser.json())
 app.use(flash());
 
 app.get('/', async function (req, res, next) {
-  try {
-    let counter = await greetings.counter();
-    let greet = await greetings.greetingMessage();
-    res.render('index', {
-      theCounter: counter,
-      message: greet
-    });
-  } catch (error) {
-    next(error)
-  }
+
+  let counter = await greetings.counter();
+  let greet = await greetings.greetingMessage();
+  res.render('index', {
+    theCounter: counter,
+    message: greet
+  });
 })
+
 app.post('/greet', async function (req, res, next) {
   var name = req.body.inputUser;
   var lang = req.body.language;
+   var stringValidator = /^[A-Za-z]+$/;
 
   if (!name) {
     req.flash("info", "please enter name");
+  }
+  else if (!name.match(stringValidator)) {
+    req.flash("info", "name not valid");
   }
   else if (lang === undefined) {
     req.flash("info", "please select the language")
@@ -73,7 +74,6 @@ app.post('/greet', async function (req, res, next) {
     await greetings.greetInDiffLanguages(name, lang)
   }
   res.redirect('/')
-
 });
 
 app.get("/greeted", async function (req, res) {
@@ -84,18 +84,21 @@ app.get("/greeted", async function (req, res) {
   });
 });
 
-// app.post('/reset', async function (req, res){
-//   await greetings.resetData()
-//   res.redirect('/')
-// });
+app.post('/reset', async function (req, res){
+  await greetings.reset()
+  res.redirect('/')
+});
 
-app.get('/user:usrName', async function (req, res){
+app.get('/users/:user', async function (req, res) {
+  let name = req.params.user;
+  let user = await greetings.getName(name)
 
-  // var  name = await greetings.greetingMessage();
-  // var counts = await greetings.counter()
-  res.render('users')
+  res.render('users', {
+    user
+  })
 })
 
+const PORT = process.env.PORT || 4007;
 app.listen(PORT, function () {
   console.log('App starting on port', PORT);
 });

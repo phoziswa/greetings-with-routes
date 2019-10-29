@@ -9,7 +9,7 @@ const pool = new Pool({
   connectionString
 });
 
-describe('The database web app', function () {
+describe('Greetings with routes', function () {
   it('should be able to greet a person', async function () {
     let instance = GreetingFactory(pool);
     await instance.greetInDiffLanguages("Yanga", "English");
@@ -24,7 +24,7 @@ describe('The database web app', function () {
     assert.equal(1, greeting);
   });
 
-  after(function () {
+   after(function () {
     pool.end();
   })
 });

@@ -65,3 +65,6 @@ span{
     color: green;
     font-size: 20px;
 }
+.data{
+    float: left;
+}
