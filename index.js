@@ -46,7 +46,7 @@ app.use(bodyParser.json())
 
 app.use(flash());
 
-app.get('/', async function (req, res, next) {
+app.get('/', async function (req, res, ) {
 
   let counter = await greetings.counter();
   let greet = await greetings.greetingMessage();
@@ -98,7 +98,7 @@ app.get('/users/:user', async function (req, res) {
   })
 })
 
-const PORT = process.env.PORT || 4007;
+const PORT = process.env.PORT || 4008;
 app.listen(PORT, function () {
   console.log('App starting on port', PORT);
 });

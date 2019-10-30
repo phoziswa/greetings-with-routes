@@ -2,7 +2,6 @@ module.exports = function GreetingFactory(pool) {
     var namesGreeted = {};
     var message = '';
     var data;
-    var greet;
 
     async function greetInDiffLanguages(name, lang) {
         message = '';
@@ -57,16 +56,13 @@ module.exports = function GreetingFactory(pool) {
         data = await pool.query('SELECT * FROM names_table;')
         return data.rows
     }
-    function theGreet() {
-        return greet;
-    }
 
     function clear() {
         return ""
     }
     async function reset() {
         let clearData = await pool.query("DELETE FROM names_table;")
-        greet = clear()
+        namesGreeted = clear()
         return clearData;
     }
     return {
@@ -77,7 +73,6 @@ module.exports = function GreetingFactory(pool) {
         greetingMessage,
         allData,
         reset,
-        theGreet,
         getName
     }
 }
