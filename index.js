@@ -98,7 +98,7 @@ app.get('/users/:user', async function (req, res) {
   })
 })
 
-const PORT = process.env.PORT || 4008;
+const PORT = process.env.PORT || 4002;
 app.listen(PORT, function () {
   console.log('App starting on port', PORT);
 });

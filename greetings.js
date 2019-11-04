@@ -5,7 +5,7 @@ module.exports = function GreetingFactory(pool) {
 
     async function greetInDiffLanguages(name, lang) {
         message = '';
-        clear()
+       
         var nameUpp = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
         // data = await pool.query('select distinct greet_name greet_count from names_table;')
 
@@ -57,13 +57,10 @@ module.exports = function GreetingFactory(pool) {
         return data.rows
     }
 
-    function clear() {
-        return ""
-    }
     async function reset() {
-        let clearData = await pool.query("DELETE FROM names_table;")
-        namesGreeted = clear()
-        return clearData;
+
+        await pool.query("DELETE FROM names_table;")
+        message = ''
     }
     return {
 
