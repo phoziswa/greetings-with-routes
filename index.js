@@ -97,7 +97,6 @@ app.get('/counter/:user', async function (req, res) {
     user
   })
 })
-
 const PORT = process.env.PORT || 4002;
 app.listen(PORT, function () {
   console.log('App starting on port', PORT);
