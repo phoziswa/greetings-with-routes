@@ -89,7 +89,7 @@ app.post('/reset', async function (req, res){
   res.redirect('/')
 });
 
-app.get('/users/:user', async function (req, res) {
+app.get('/counter/:user', async function (req, res) {
   let name = req.params.user;
   let user = await greetings.getName(name)
 
