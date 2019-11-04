@@ -68,3 +68,7 @@ span{
 .data{
     float: left;
 }
+
+.textBox{
+    margin-left: 1.5em;
+}
