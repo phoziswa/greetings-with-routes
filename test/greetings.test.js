@@ -10,6 +10,11 @@ const pool = new Pool({
 });
 
 describe('Greetings with routes', function () {
+
+  beforeEach(async function () {
+    await pool.query("DELETE FROM names_table;");
+
+  });
   it('should be able to greet a person', async function () {
     let instance = GreetingFactory(pool);
     await instance.greetInDiffLanguages("Yanga", "English");
