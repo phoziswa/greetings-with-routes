@@ -5,9 +5,8 @@ module.exports = function GreetingFactory(pool) {
 
     async function greetInDiffLanguages(name, lang) {
         message = '';
-       
+
         var nameUpp = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-        // data = await pool.query('select distinct greet_name greet_count from names_table;')
 
         if (nameUpp.length > 0) {
             var storeNAmes = await pool.query('SELECT * FROM names_table WHERE  greet_name = $1;', [nameUpp])
@@ -29,7 +28,6 @@ module.exports = function GreetingFactory(pool) {
         else if (lang === 'Afrikaans') {
             message = "Hallo, " + nameUpp;
         }
-        // console.log(message);
     }
     async function counter() {
         var countRows = await pool.query('SELECT COUNT (*) FROM names_table')

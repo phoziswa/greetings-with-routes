@@ -97,7 +97,7 @@ app.get('/counter/:user', async function (req, res) {
     user
   })
 })
-const PORT = process.env.PORT || 4002;
+const PORT = process.env.PORT || 4003;
 app.listen(PORT, function () {
   console.log('App starting on port', PORT);
 });
