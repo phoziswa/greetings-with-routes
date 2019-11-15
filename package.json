@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node index.js",
     "test": "mocha"
-   
   },
   "keywords": [],
   "author": "",
@@ -21,6 +20,7 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
+    "eslint": "^6.6.0",
     "mocha": "^6.2.1",
     "nodemon": "^1.19.3"
   }
